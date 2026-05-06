@@ -1,8 +1,8 @@
 
 import { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI("AIzaSyBuh1wy2zvwxFu-lWpUnCqr7IsJMdNWql8");
+import google from "../scripts/google"
+const genAI = new GoogleGenerativeAI(google.key);
 
 
 
