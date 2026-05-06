@@ -1,4 +1,4 @@
-const google={
- key:"AIzaSyCh35VNlQiDnK7gAjkluWU6PR59T-CmGW4"
-}
+const google = {
+  key: "AIzaSyBHY_23uMQGMGsdGXmdynPyc-CkRXNAhLg"
+};
 export default google;
