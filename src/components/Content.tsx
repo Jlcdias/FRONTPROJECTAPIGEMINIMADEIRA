@@ -2,14 +2,15 @@ import Footer from './Footer';
 import LeftMenu from './LeftMenu';
 import MainMenu from './MainMenu';
 import Header from './header';
+
 function Content() {
   return (
-        <div className="row">
-            <Header />
-            <LeftMenu />
-            <MainMenu />
-            <Footer />
-        </div>
+    <div className="row">
+        <Header />
+        <LeftMenu />
+        <MainMenu />
+        <Footer />
+    </div>
   )
 }
 

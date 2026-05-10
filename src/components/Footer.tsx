@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useContext } from "react";
 import {ThemeContext} from '../App';
 function Footer() {
@@ -8,7 +8,10 @@ function Footer() {
   return (
     
     <div className="row " data-bs-theme={theme}>
-        <div className="col-12 ">Footer</div>
+        <div className="col-12 ">
+          O Gemini Madeira é IA e pode cometer erros, inclusive sobre pessoas.
+          <p>&copy; 2026 GeminiMAdeira. Todos os direitos reservados.</p>
+        </div>
     </div>
   )
 }

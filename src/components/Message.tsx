@@ -2,103 +2,73 @@
 import { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import google from "../scripts/google"
-
+import { useChat } from "./historico";
 interface MessageItem {
   role: 'user' | 'model';
   text: string;
 }
 
+
+
+
 const genAI = new GoogleGenerativeAI(google.key);
-
-
 
 function Message() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   
-  const [chatHistory, setChatHistory] = useState<MessageItem[]>([]);
-
+  const { chatHistory, addMessage } = useChat();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!answer.trim()) return;
+
     const userMessage = answer;
     setLoading(true);
+    setAnswer("");
 
-
-    setChatHistory((prev) => [...prev, { role: "user", text: userMessage }]);
+    addMessage("user", userMessage);
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
-      const result = await model.generateContent(answer);
+      const result = await model.generateContent(userMessage);
       const botResponse = result.response.text();
-  
+
+      addMessage("model", botResponse);
 
 
-    setChatHistory((prev) => [...prev, { role: "model", text: botResponse }]);
     } catch (error) {
-      setChatHistory((prev) => [...prev, { role: "model", text: "Error generating content. Check your API key." }]);
+      addMessage("model", "Erro ao gerar conteúdo. Verifica a tua chave API.");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
   return (
-    <div className="App" style={{ padding: "20px" , height:"85vh", margin:"2px"}}>     
+    <div className="App" style={{ padding: "20px" , height:"85vh", margin:"20px"}}>     
     <h1>Gemini Simple Demo</h1>
-<div  className="chat message" style={{  
-        height: "80%", 
-        flex:1,
-        overflowY: "auto", 
-        padding: "10px", 
-        marginBottom: "20px",
-        display: "flex",
-        flexDirection: "column"
-      }}>
+      <div  className="chatBox">
         {chatHistory.map((msg, index) => (
-          <div key={index} style={{ 
+          <div key={index} className="chatMessages" style={{ 
             alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
             backgroundColor: msg.role === "user" ? "#007bff" : "#f1f1f1",
-            color: msg.role === "user" ? "white" : "black",
-            padding: "8px 12px",
-            borderRadius: "10px",
-            marginBottom: "10px",
-            maxWidth: "80%"
-          }}>
+            color: msg.role === "user" ? "white" : "black"}}>
+
             {msg.text}
+
           </div>
         ))}
         {loading && <p style={{ fontSize: "12px", color: "gray" }}>Gemini está a pensar...</p>}
       </div>
-      <form onSubmit={handleSubmit} 
-      style={{padding: "20px", 
-              borderTop: "1px solid #ccc",
-              display: "flex",       // Ativa o Flexbox
-              gap: "10px",           // Espaço entre o input e o botão
-              backgroundColor: "white",
-              width: "100%",         // Garante que o form ocupa a largura do contentor
-              boxSizing: "border-box"
-      }}>
+      <form className="inputForm" onSubmit={handleSubmit} >
         <input
           type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder=""
-          style={{ width: "800px", 
-            padding: "10px",
-            flex: 1,                
-            borderRadius: "5px", 
-            border: "1px solid #ccc",
-            fontSize: "16px",
-            outline: "none"}}
+          className="inpuTextBox"
         />
-        <button type="submit" 
-        style={{ padding: "10px 25px",   // Largura interna do botão
-                  cursor: "pointer",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  fontWeight: "bold",
-                  whiteSpace: "nowrap"
-        }}
+        <button className="submitButton" type="submit" 
          disabled={loading}>{loading ? "Thinking..." : "Submit"}
         </button>
       </form>

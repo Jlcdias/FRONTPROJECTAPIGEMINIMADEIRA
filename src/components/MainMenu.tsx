@@ -1,13 +1,16 @@
-import Message from "./Message"
+import { useContext } from "react";
+import { ThemeContext } from '../App';
+import Message from "./Message";
 
 function MainMenu() {
-  return (
-    <>
-    <div className="col-9 border">
-    <Message />
-    </div>
-    </>
-  )
+    const tema = useContext(ThemeContext);
+
+    return (
+        
+        <div className={`col-9 Main-menu ${tema.theme}`}>
+            <Message />
+        </div>
+    );
 }
 
-export default MainMenu
+export default MainMenu;
