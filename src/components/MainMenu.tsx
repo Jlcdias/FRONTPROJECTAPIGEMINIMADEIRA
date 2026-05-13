@@ -6,7 +6,6 @@ function MainMenu() {
     const tema = useContext(ThemeContext);
 
     return (
-        
         <div className={`col-9 Main-menu ${tema.theme}`}>
             <Message />
         </div>

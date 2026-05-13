@@ -5,7 +5,8 @@ import Header from './header';
 
 function Content() {
   return (
-    <div className="row">
+    
+    <div className="row MainPage">
         <Header />
         <LeftMenu />
         <MainMenu />

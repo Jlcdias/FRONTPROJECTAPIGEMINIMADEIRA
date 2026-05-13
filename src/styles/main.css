@@ -65,6 +65,9 @@
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
+.main-page{
+  max-height: 60vh;
+}
 
 /* Estilo do Botão */
 .login-button {
@@ -265,7 +268,9 @@
     color: var(--text);
     padding: 20px;
     margin: 20px;
-    min-height: calc(100vh - 40px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .message-container {
@@ -273,6 +278,10 @@
     background-color: var(--surface);
     border-radius: 12px;
     box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 160px);
+    max-height: calc(100vh - 160px);
 }
 
 .message-title {
@@ -281,8 +290,8 @@
 }
 
 .chatBox {
-    height: 80%;
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     padding: 10px;
     margin-bottom: 20px;

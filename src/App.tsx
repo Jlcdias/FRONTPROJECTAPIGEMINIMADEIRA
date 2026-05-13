@@ -11,7 +11,7 @@ export const ThemeContext = createContext<any>(null);
 
 function App() {
 
-  const [theme,setTheme]= useState('dark');
+  const [theme,setTheme]= useState('ligth');
   
 
   return (

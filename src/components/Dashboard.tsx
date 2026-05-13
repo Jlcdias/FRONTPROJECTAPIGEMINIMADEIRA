@@ -23,7 +23,7 @@ function Dashboard() {
             <div className="stat-item">
               <p className="stat-icon-requests">✅</p>
               <p className="stat-label">Total de Respostas da API KEY:</p>
-              <p className="stat-value">{stats.botQueries}</p>
+              <p className="stat-value">{stats.totalOrderAPI}</p>
             </div>
             <div className="stat-item">
               <p className="stat-icon-requests">✉️</p>
