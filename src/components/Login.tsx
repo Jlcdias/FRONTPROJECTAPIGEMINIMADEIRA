@@ -30,8 +30,7 @@ function Login() {
 <>
   <div className="login-container">
     <form className="login-form" onSubmit={handleLogin}>
-      <img src={account} alt="logotipo" style={{height:"50px"}} />
-      <h2>Bem-vindo ao Gemini da Madeira</h2>
+      <img src={account} alt="logotipo" className="login-logo" />
       <p>Introduza os seus dados para aceder</p>
       
       <div className="input-group">

@@ -1,4 +1,9 @@
-const google = {
-  //key: "AIzaSyAv_KNtN-P2MlDWXDRI6nTR9UGYwlhXtRs"
+interface GoogleConfig {
+  key: string;
+}
+
+const google: GoogleConfig = {
+  //key: "AIzaSyBI_bM_bprHfhps1HcCGD4rlMYF0FPhwB0"
 };
+
 export default google;

@@ -6,12 +6,11 @@ import { useChat } from "./historico";
 
 function LeftMenu() {
 
-    const tema = useContext(ThemeContext);
-    console.log("Tema  : "+ tema.theme)
-    const { chatHistory } = useChat(); // 
+    const { theme, setTheme } = useContext(ThemeContext);
+    const { chatHistory } = useChat();
 
   return (
-    <div className="col-3 d-flex flex-column vh-80" data-bs-theme={tema}>
+    <div className="col-3 d-flex flex-column vh-80" data-bs-theme={theme}>
         <div className="row justify-content-center align-items-center">
          Histórico de pesquisa</div>
         <div className="mt-3 history-container">
@@ -22,9 +21,9 @@ function LeftMenu() {
         ))}
         </div> 
         <div className="row mt-auto mb-3 ">
-            <div className="col-4"><button type="button" className="btn btn-primary" onClick={()=>tema.setTheme("ligth") }>Ligth button</button></div>
-            <div className="col-4"><button type="button" className="btn btn-primary" onClick={()=>tema.setTheme("dark")}>Dark button</button></div>
-            <div className="col-4"><button type="button" className="btn btn-primary" onClick={()=>tema.setTheme("custom-made-theme")}>Blue button</button></div>            
+            <div className="col-4"><button type="button" className="btn btn-theme" onClick={()=>setTheme("ligth") }>Ligth button</button></div>
+            <div className="col-4"><button type="button" className="btn btn-theme" onClick={()=>setTheme("dark")}>Dark button</button></div>
+            <div className="col-4"><button type="button" className="btn btn-theme" onClick={()=>setTheme("custom-made-theme")}>Blue button</button></div>            
         </div>
     </div>
   )

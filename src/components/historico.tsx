@@ -14,12 +14,16 @@ interface ChatContextType {
   chatHistory: MessageItem[];
   setChatHistory: React.Dispatch<React.SetStateAction<MessageItem[]>>;
   addMessage: (role: 'user' | 'model', text: string) => void;
-  stats: { totalMessages: number };
+  addLoadingTime: (time: number) => void;
+  addTokensUsed: (tokens: number) => void;
+  stats: { totalMessages: number; averageLoadingTime: number; totalTokensUsed: number; userQueries: number; botQueries: number; botErrorQueries: number, totalOrderAPI:number };
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 export function ChatProvider({ children }: { children: ReactNode }) {
   const [chatHistory, setChatHistory] = useState<MessageItem[]>([]);
+  const [loadingTimes, setLoadingTimes] = useState<number[]>([]);
+  const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
   
   // Limpa o localStorage ao montar o provider (para garantir que não haja dados antigos)
   useEffect(() => {
@@ -31,12 +35,25 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     setChatHistory((prev) => [...prev, { role, text }]);
   };
 
+  const addLoadingTime = (time: number) => {
+    setLoadingTimes((prev) => [...prev, time]);
+  };
+
+  const addTokensUsed = (tokens: number) => {
+    setTotalTokensUsed((prev) => prev + tokens);
+  };
+
   const stats = {
     totalMessages: chatHistory.length,
-    userQueries: chatHistory.filter(m => m.role === 'user').length
+    userQueries: chatHistory.filter(m => m.role === 'user').length,
+    botQueries: chatHistory.filter(m => m.role === 'model').length,
+    botErrorQueries: chatHistory.filter(m => m.role === 'model' && m.text === 'Erro ao gerar conteúdo. Verifica a tua chave API.').length,
+    totalOrderAPI : chatHistory.filter(m => m.role === 'model' && m.text !== 'Erro ao gerar conteúdo. Verifica a tua chave API.').length,
+    averageLoadingTime: loadingTimes.length > 0 ? loadingTimes.reduce((a, b) => a + b, 0) / loadingTimes.length : 0,
+    totalTokensUsed
   };
   return (
-    <ChatContext.Provider value={{ chatHistory, setChatHistory, addMessage,stats }}>
+    <ChatContext.Provider value={{ chatHistory, setChatHistory, addMessage, addLoadingTime, addTokensUsed, stats }}>
       {children}
     </ChatContext.Provider>
   );

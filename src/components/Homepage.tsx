@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
-import {useNavigate} from "react-router-dom";
-import {auth}from "../config/firebase";
+import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { auth } from "../config/firebase";
 
 function Homepage() {
-    const isAuthenticated = useEffect(()=>{
-        const user = auth.currentuser;
-        if (!user){
-            navigate("/Error");}
-        },[])
-        const navigate = useNavigate();
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (!user) {
+            navigate("/Error");
+        }
+    }, [navigate]);
 
-    const handleSignOut= () =>{
+    const handleSignOut = () => {
         auth.signOut();
         navigate("/Error");
     }

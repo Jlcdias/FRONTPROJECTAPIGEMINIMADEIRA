@@ -3,10 +3,6 @@ import { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import google from "../scripts/google"
 import { useChat } from "./historico";
-interface MessageItem {
-  role: 'user' | 'model';
-  text: string;
-}
 
 
 
@@ -16,7 +12,7 @@ const genAI = new GoogleGenerativeAI(google.key);
 function Message() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-  const { chatHistory, addMessage } = useChat();
+  const { chatHistory, addMessage, addLoadingTime, addTokensUsed } = useChat();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,36 +24,37 @@ function Message() {
     setAnswer("");
 
     addMessage("user", userMessage);
+    const startTime = Date.now();
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
       const result = await model.generateContent(userMessage);
       const botResponse = result.response.text();
+      const tokensUsed = result.response.usageMetadata?.totalTokenCount || 0;
 
       addMessage("model", botResponse);
+      addTokensUsed(tokensUsed);
 
 
     } catch (error) {
       addMessage("model", "Erro ao gerar conteúdo. Verifica a tua chave API.");
       console.error(error);
     } finally {
+      const endTime = Date.now();
+      const duration = endTime - startTime;
+      addLoadingTime(duration);
       setLoading(false);
     }
   }
   return (
-    <div className="App" style={{ padding: "20px" , height:"85vh", margin:"20px"}}>     
-    <h1>Gemini Simple Demo</h1>
-      <div  className="chatBox">
+    <div className="App message-container">     
+      <h1 className="message-title">Gemini Simple Demo</h1>
+      <div className="chatBox">
         {chatHistory.map((msg, index) => (
-          <div key={index} className="chatMessages" style={{ 
-            alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-            backgroundColor: msg.role === "user" ? "#007bff" : "#f1f1f1",
-            color: msg.role === "user" ? "white" : "black"}}>
-
+          <div key={index} className={`chatMessages ${msg.role === "user" ? "user" : "model"}`}>
             {msg.text}
-
           </div>
         ))}
-        {loading && <p style={{ fontSize: "12px", color: "gray" }}>Gemini está a pensar...</p>}
+        {loading && <p className="loading-text">Gemini está a pensar...</p>}
       </div>
       <form className="inputForm" onSubmit={handleSubmit} >
         <input
@@ -65,7 +62,7 @@ function Message() {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder=""
-          className="inpuTextBox"
+          className="inputTextBox"
         />
         <button className="submitButton" type="submit" 
          disabled={loading}>{loading ? "Thinking..." : "Submit"}

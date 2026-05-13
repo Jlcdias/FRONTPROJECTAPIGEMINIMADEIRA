@@ -2,8 +2,9 @@ import { Navigate } from "react-router-dom";
 import { auth } from "../config/firebase"; // Ajuste o caminho se necessário
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
+import type { ReactNode } from "react";
 
-export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
