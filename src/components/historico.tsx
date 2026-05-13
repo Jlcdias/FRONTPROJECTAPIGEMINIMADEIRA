@@ -7,6 +7,8 @@ interface MessageItem {
   text: string;
 }
 
+
+
 // O que o contexto vai entregar aos componentes
 interface ChatContextType {
   chatHistory: MessageItem[];

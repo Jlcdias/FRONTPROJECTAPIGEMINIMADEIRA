@@ -1,4 +1,5 @@
 import React from 'react';
+import account from '../../img/account.png';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { useState } from 'react';
@@ -26,13 +27,39 @@ function Login() {
     }
   return (
     
-    <>
-    <form onSubmit={handleLogin}>
-        <input type="email" onChange={(event)=>{setEmail(event.target.value)}} value={email}  id="email" placeholder="Email:123@domain.com"/>
-        <input type="password" onChange={(event)=>{setPassword(event.target.value)}} value={password} id="password" placeholder="Password:joaodascouves" />
-        <button type="submit" >Loggin</button>
+<>
+  <div className="login-container">
+    <form className="login-form" onSubmit={handleLogin}>
+      <img src={account} alt="logotipo" style={{height:"50px"}} />
+      <h2>Bem-vindo ao Gemini da Madeira</h2>
+      <p>Introduza os seus dados para aceder</p>
+      
+      <div className="input-group">
+        <label htmlFor="email">Email</label>
+        <input 
+          type="email" 
+          onChange={(event) => setEmail(event.target.value)} 
+          value={email} 
+          id="email" 
+          placeholder="exemplo@dominio.com"
+        />
+      </div>
+
+      <div className="input-group">
+        <label htmlFor="password">Palavra-passe</label>
+        <input 
+          type="password" 
+          onChange={(event) => setPassword(event.target.value)} 
+          value={password} 
+          id="password" 
+          placeholder="joaodascouves" 
+        />
+      </div>
+
+      <button type="submit" className="login-button">Entrar</button>
     </form>
-    </>
+  </div>
+</>
   )
 }
 

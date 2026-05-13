@@ -16,7 +16,6 @@ const genAI = new GoogleGenerativeAI(google.key);
 function Message() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-  
   const { chatHistory, addMessage } = useChat();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
