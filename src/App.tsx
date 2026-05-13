@@ -8,6 +8,7 @@ export const ThemeContext = createContext<any>(null);
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import { ChatProvider } from './components/historico';
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 
 
@@ -23,8 +24,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login/>} />
-            <Route path="/content" element={<Content/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
+
+            <Route path="/content" element={<ProtectedRoute><Content/></ProtectedRoute>}/>
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
           </Routes>
         </BrowserRouter>
       </div>
