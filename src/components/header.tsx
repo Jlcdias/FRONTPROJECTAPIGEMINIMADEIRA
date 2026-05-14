@@ -2,11 +2,21 @@
 import dashboardIcon from '../../img/dashboard.png';
 import logotipo from '../../img/logotipo.png';
 import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { useEffect } from "react";
 
 function Header() {
-  const navigate = useNavigate(); // 2. Inicializa a função de navegação
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        navigate("/");
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {
@@ -14,7 +24,6 @@ function Header() {
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
-    navigate("/");
   };
 
   return (

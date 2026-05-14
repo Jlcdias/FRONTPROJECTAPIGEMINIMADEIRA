@@ -7,7 +7,7 @@ import Dashboard from "./components/Dashboard";
 import { ChatProvider } from './components/historico';
 import { ProtectedRoute } from "./components/ProtectedRoute";
 export const ThemeContext = createContext<any>(null);
-
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login/>} />
-
+            <Route path="*" element={<ErrorPage/>} />
             <Route path="/content" element={<ProtectedRoute><Content/></ProtectedRoute>}/>
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
           </Routes>
